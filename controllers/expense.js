@@ -3,7 +3,19 @@ const TransactionSchema= require("../models/TransactionModel")
 exports.getExpenses = async (req,res) => {
 
     try {
-        const expenses = await TransactionSchema.find({type: 'expense'}).sort({createdAt: -1})
+        const expenses = await TransactionSchema.aggregate([ 
+            {
+                $match:{type: 'expense'}
+            },
+            {
+                $match: {
+                    $expr: {$and:[
+                      {$eq:[{$year:"$date"},{$year:new Date()}]},
+                      {$eq:[{$month:new Date()},{$month:"$date"}]},  
+                    ]}
+                }
+            }]
+          ).sort({createdAt: -1})
         res.status(200).json(expenses)
     } catch (error) {
         res.status(500).json({message: 'Server Error'})
