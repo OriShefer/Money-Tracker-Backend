@@ -1,10 +1,11 @@
-const { getExpenses, getExpensesByCategoryAmount } = require('../controllers/expense');
+const { getExpenses,getMonthlyExpenses, getMonthlyExpensesByCategoryAmount } = require('../controllers/expense');
 
 const router = require('express').Router();
 
 
 router
     .get('/get-expenses',getExpenses)
-    .get('/get-expenses-category',getExpensesByCategoryAmount)
+    .get('/get-monthly-expenses',getMonthlyExpenses)
+    .get('/get-monthly-expenses-category',getMonthlyExpensesByCategoryAmount)
 
 module.exports = router
